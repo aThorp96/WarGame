@@ -3,7 +3,7 @@ package cardGame
 import "math/rand"
 
 type Deck struct {
-    cards Card[52]
+    cards [52]Card
     numCards int64
 }
 
@@ -16,7 +16,7 @@ type NoCard struct {
 func (deck *Deck) Sort() {
     for i := 0; i < 4; i++ {
         for j := 2; j < 15; j++ {
-            deck.cards[(i + 1) * j] := card.New(i, j)
+            deck.cards[(i + 1) * j] = card.New(i, j)
             deck.numCards++
         }
     }
@@ -31,8 +31,9 @@ func New() *Deck {
 
 //Randomizes the order of the deck. 
 func (deck *Deck) Shuffle() {
+    deck.Sort()
     for i := 0; i < deck.numCards; i++ {
-        index = rand.Intn(52 - i) + i
+        index := rand.Intn(deck.numCards - i) + i
         temp := deck.cards[i]
         deck.cards[i] = deck.cards[index]
         deck.cards[index] = temp
