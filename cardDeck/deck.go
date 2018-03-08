@@ -1,57 +1,54 @@
-package cardGame
+package cardDeck
 
-import "math/rand"
+import (
+	"errors"
+	"log"
+	"math/rand"
+)
 
 type Deck struct {
-    cards [52]Card
-    numCards int64
+	cards    [52]Card
+	numCards int
 }
 
-// NoCard will be returned if a card is attempted to be accessed, but there is no card.
-type NoCard struct {
-    Error string
+func NewDeck() *Deck {
+	deck := Deck{}
+	deck.Shuffle()
+	return &deck
 }
 
-//Creates a new deck in order. 
+//Creates a new deck in order.
 func (deck *Deck) Sort() {
-    for i := 0; i < 4; i++ {
-        for j := 2; j < 15; j++ {
-            deck.cards[(i + 1) * j] = card.New(i, j)
-            deck.numCards++
-        }
-    }
+	for i := 0; i < 4; i++ {
+		for j := 2; j < 15; j++ {
+			deck.cards[(i+1)*j] = Card{i, j}
+			deck.numCards++
+		}
+	}
 }
 
-//Creates, sorts, and returns a new deck. 
-func New() *Deck {
-    deck := &Deck{Card[52], 0}
-    deck.Sort()
-    return deck
-}
-
-//Randomizes the order of the deck. 
+//Randomizes the order of the deck.
 func (deck *Deck) Shuffle() {
-    deck.Sort()
-    for i := 0; i < deck.numCards; i++ {
-        index := rand.Intn(deck.numCards - i) + i
-        temp := deck.cards[i]
-        deck.cards[i] = deck.cards[index]
-        deck.cards[index] = temp
-    }
+	deck.Sort()
+	for i := 0; i < deck.numCards; i++ {
+		index := rand.Intn(deck.numCards-i) + i
+		temp := deck.cards[i]
+		deck.cards[i] = deck.cards[index]
+		deck.cards[index] = temp
+	}
 }
 
 //Deal pops the top card off the deck and returns it.
 //Returns an error if HasNext != true
 func (deck *Deck) Deal() (*Card, error) {
-    if !deck.HasNext() {
-        return nil, NoCard{"Deck is out of cards."}
-    }
-    deck.numCards--
-    return deck.cards[numCards], nil
+	if !deck.HasNext() {
+		return nil, errors.New("Deck is out of cards.")
+	}
+	deck.numCards--
+	return &deck.cards[deck.numCards], nil
 }
 
 //hasNext returns true if there are cards left to be dealt.
 func (deck *Deck) HasNext() bool {
-    return numCards > 0
+	return deck.numCards > 0
 }
-

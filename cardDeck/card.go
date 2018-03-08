@@ -6,21 +6,21 @@ package cardDeck
 * Rank is a number 2-14, with 11-13 being face cards and 14 being Ace.
  */
 type Card struct {
-	suit int64
-	rank int64
+	suit int
+	rank int
 }
 
 // Suit returns the suit of the card.
-func (card *Card) Suit() int64 {
+func (card *Card) Suit() int {
 	return card.suit
 }
 
 //Rank returns the rank of the card.
-func (card *Card) Rank() int64 {
+func (card *Card) Rank() int {
 	return card.rank
 }
 
 //New returns a new Card made from a passed in rank and suit (in that order).
-func New(rank int64, suit int64) *Card {
+func New(rank int, suit int) *Card {
 	return &Card{suit, rank}
 }
